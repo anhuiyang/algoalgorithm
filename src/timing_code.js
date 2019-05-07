@@ -1,3 +1,13 @@
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;  
+let data = []
+const csvWriter = createCsvWriter({  
+    path: 'timing_record.csv',
+    header: [
+      {id: 'arrSize', title: 'Array size'},
+      {id: 'reverse', title: 'Reverse'}
+    ]
+  });
+
 const reverseArray = (array)=>{
     let newArray = [], l = array.length; 
     for(k=0; k<l; k++){
@@ -20,6 +30,11 @@ for(let i=50000; i<=1000000; i+=50000){
     let hrstart = process.hrtime()
     reverseArray(mainArr)
     let hrend = process.hrtime(hrstart)
-    console.log(`arrSize: ${arrSize}, nanoseconds: ${hrend[1]}`)
-
+    data.push({arrSize: arrSize, reverse: hrend[1]})
 }
+console.log(data)
+
+csvWriter  
+  .writeRecords(data)
+  .then(()=> console.log('The CSV file was written successfully'));
+  
