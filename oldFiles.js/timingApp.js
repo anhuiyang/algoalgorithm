@@ -1,7 +1,7 @@
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;  
-var fromEntries = require('object.fromentries');
 const findDuplicate = require('./src/findDuplicate');
 const reverseArray = require('./src/reverseArray');
+const populateArr = require('./src/populateArr')
 let data = rawData = [];
 const csvWriter = createCsvWriter({  
     path: 'timingRecord.csv',
@@ -10,17 +10,15 @@ const csvWriter = createCsvWriter({
         {id: 'nanosecond', title: 'Nanosecond'}
     ]
 });
-const populateArr = (size)=>{
-    let tempArr = [];
-    for(let j=0; j<size; j++){
-        tempArr.push(Math.ceil(Math.random()*((size*2)+1))-size);
+const preRun = (n, method)=>{
+    for(let i=0; i<0; i++){
+        method()
     }
-    return tempArr;
 }
 const runTimer = (n)=>{
     for(let i=50000; i<=1000000; i+=50000){
         mainArr = populateArr(i);
-        let temp = runNthTimes(n, mainArr)
+        let temp = runNthTimes(n, mainArr, fn)
         rawData.push({arraysize: i, nanosecond: temp})
     }
     console.log(rawData)
@@ -29,23 +27,22 @@ const runTimer = (n)=>{
 const runNthTimes = (n, array)=>{
     let temp = 0
     for(let i=0; i<n; i++){
+        array.reverse()
+        array.reverse()
+        array.reverse()
+        array.reverse()
+        array.reverse()
         let hrstart = process.hrtime();
-        mainArr.reverse()
+        array.reverse()
         // reverseArray(array);
         // findDuplicate(mainArr)
         let hrend = process.hrtime(hrstart);
         temp+=hrend[1]
     }
-    console.log(temp)
     return temp/n
 }
 
-const toObject = (n)=>{
-    for (let i=0; i<n; i++){
-        rawData[0]
-    }
-}
-runTimer(1)
+runTimer(10, reverseArray)
 
 csvWriter  
     .writeRecords(data)
